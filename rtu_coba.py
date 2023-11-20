@@ -3,6 +3,7 @@ from pymodbus.server import StartAsyncSerialServer
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.datastore import ModbusSequentialDataBlock
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
+from pymodbus.framer import ModbusRtuFramer
 import asyncio
 
 class CallbackDataBlock(ModbusSequentialDataBlock):
@@ -65,7 +66,7 @@ async def run_async_server():
             # timeout=1,  # waiting time for request to complete
             port='COM1',  # serial port
             # custom_functions=[],  # allow custom handling
-            # framer=args.framer,  # The framer strategy to use
+            framer=ModbusRtuFramer,  # The framer strategy to use
             stopbits=1,  # The number of stop bits to use
             bytesize=8,  # The bytesize of the serial messages
             parity="N",  # Which kind of parity to use
