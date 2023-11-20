@@ -1,9 +1,10 @@
-from pymodbus.server import StartTcpServer
+from pymodbus.server import StartAsyncTcpServer
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.datastore import ModbusSequentialDataBlock
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
+import asyncio
 
-def run_async_server():
+async def run_async_server():
     nreg = 200
     store = ModbusSlaveContext(
         di=ModbusSequentialDataBlock(0, [15]*nreg),
@@ -21,8 +22,11 @@ def run_async_server():
     identity.ModelName = "modbus server"
     identity.MajorMinorRevision = "3.0.2"
     
-    StartTcpServer(context=context, identity=identity, address=('127.0.0.1', 502))
+    server = await StartAsyncTcpServer(context=context, identity=identity, address=('127.0.0.1', 502))
+
+    return server
+
 
 if __name__ == "__main__":
     print("Modbus server started on localhost port 502")
-    run_async_server()
+    asyncio.run(run_async_server())

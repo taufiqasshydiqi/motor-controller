@@ -7,7 +7,7 @@ when a value is written to it.
 import asyncio
 import logging
 
-import server_async
+import coba
 
 from pymodbus.datastore import (
     ModbusSequentialDataBlock,
@@ -59,10 +59,10 @@ async def run_callback_server(cmdline=None):
     block.setValues(1, 15)
     store = ModbusSlaveContext(di=block, co=block, hr=block, ir=block)
     context = ModbusServerContext(slaves=store, single=True)
-    run_args = server_async.setup_server(
-        description="Run callback server.", cmdline=cmdline, context=context
-    )
-    await server_async.run_async_server(run_args)
+    # run_args = server_async.setup_server(
+    #     description="Run callback server.", cmdline=cmdline, context=context
+    # )
+    await coba.run_async_server()
 
 
 if __name__ == "__main__":
